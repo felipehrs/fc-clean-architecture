@@ -1,4 +1,6 @@
 import IProductRepository from "../../../domain/product/repository/product-repository.interface";
+import CreateProductUseCase from "./create.product";
+import { InputCreateProductDTO, OutputCreateProductDTO } from "./create.product.dto";
 
 const Repository = (): IProductRepository => {
     return {
@@ -9,16 +11,17 @@ const Repository = (): IProductRepository => {
     }
 }
 
+const input: InputCreateProductDTO = {
+    name: "Product 1",
+    price: 10,
+}
+
+
 describe("Unit test for create product", () => {
     it("should create a product", async () => {
         const repository = Repository();
         const usecase = new CreateProductUseCase(repository);
         
-        const input: InputCreateProductDTO = {
-            name: "Product 1",
-            price: 10,
-        }
-
         const output: OutputCreateProductDTO = await usecase.execute(input);
         expect(output).toEqual({
             id: expect.any(String),
